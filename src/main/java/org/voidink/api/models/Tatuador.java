@@ -10,7 +10,8 @@ import java.util.Date;
 public class Tatuador {
 
     @Id
-    private UUID id; // Clave primaria vinculada a auth.users.id
+    @Column(name = "id")
+    private UUID id; // Vinculado a auth.users.id de Supabase
 
     @Column(name = "nombre_artistico", nullable = false)
     private String nombreArtistico;
@@ -18,7 +19,7 @@ public class Tatuador {
     @Column(name = "nombre_estudio", nullable = false)
     private String nombreEstudio;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "biografia", columnDefinition = "TEXT")
     private String biografia;
 
     @Column(name = "instagram_username")
@@ -37,10 +38,17 @@ public class Tatuador {
     @Column(name = "fecha_registro", updatable = false)
     private Date fechaRegistro = new Date();
 
+    // Mapeo explícito de la relación intermedia de estilos
     @ElementCollection
-    @CollectionTable(name = "tatuadores_estilos", joinColumns = @JoinColumn(name = "tatuador_id"))
+    @CollectionTable(
+        name = "tatuadores_estilos", 
+        joinColumns = @JoinColumn(name = "tatuador_id")
+    )
     @Column(name = "estilo_id")
     private List<Long> estilos;
+
+    // Constructor vacío requerido por JPA
+    public Tatuador() {}
 
     // Getters y Setters
     public UUID getId() { return id; }
