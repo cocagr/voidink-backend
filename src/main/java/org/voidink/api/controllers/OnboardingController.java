@@ -9,7 +9,11 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/onboarding")
-@CrossOrigin(origins = "*")
+@CrossOrigin(
+    origins = "*", 
+    allowedHeaders = "*", 
+    methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS}
+)
 public class OnboardingController {
 
     @Autowired
