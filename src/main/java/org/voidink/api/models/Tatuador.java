@@ -3,13 +3,14 @@ package org.voidink.api.models;
 import jakarta.persistence.*;
 import java.util.UUID;
 import java.util.List;
+import java.util.Date;
 
 @Entity
 @Table(name = "tatuadores")
 public class Tatuador {
 
     @Id
-    private UUID id; // Enlazado directamente al auth.users.id de Supabase
+    private UUID id; // Clave primaria vinculada a auth.users.id
 
     @Column(name = "nombre_artistico", nullable = false)
     private String nombreArtistico;
@@ -32,7 +33,10 @@ public class Tatuador {
     @Column(name = "onboarding_completo")
     private Boolean onboardingCompleto = false;
 
-    // ElementCollection para guardar los IDs de la tabla intermedia tatuadores_estilos de forma rápida
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_registro", updatable = false)
+    private Date fechaRegistro = new Date();
+
     @ElementCollection
     @CollectionTable(name = "tatuadores_estilos", joinColumns = @JoinColumn(name = "tatuador_id"))
     @Column(name = "estilo_id")
@@ -55,6 +59,8 @@ public class Tatuador {
     public void setDireccionTexto(String direccionTexto) { this.direccionTexto = direccionTexto; }
     public Boolean getOnboardingCompleto() { return onboardingCompleto; }
     public void setOnboardingCompleto(Boolean onboardingCompleto) { this.onboardingCompleto = onboardingCompleto; }
+    public Date getFechaRegistro() { return fechaRegistro; }
+    public void setFechaRegistro(Date fechaRegistro) { this.fechaRegistro = fechaRegistro; }
     public List<Long> getEstilos() { return estilos; }
     public void setEstilos(List<Long> estilos) { this.estilos = estilos; }
 }
